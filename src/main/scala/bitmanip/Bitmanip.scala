@@ -140,206 +140,139 @@ class BitmanipV2 extends Module {
     when(funct === 32.U && funct3 === 7.U && opcode === 51.U){
       printf("ANDNOT\n")
       out := in1 & (~in2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
-
+      
     }.elsewhen(funct === 5.U && funct3 === 1.U && opcode === 51.U){
       printf("CLMUL\n")
       out := clmul
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+      
     }.elsewhen(funct === 5.U && funct3 === 3.U && opcode === 51.U){
       printf("CLMULH\n")
       out := clmulh
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 5.U && funct3 === 2.U && opcode === 51.U){
       printf("CLMULR\n")
       out := clmulr
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(Cat(funct, io.cmd.bits.inst.rs2) === 1536.U && funct3 === 1.U && opcode === 19.U){
       printf("CLZ\n")
       out := clz(in1)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(Cat(funct, io.cmd.bits.inst.rs2) === 1538.U && funct3 === 1.U && opcode === 19.U){
       printf("CPOP\n")
       out := cpop(in1)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(Cat(funct, io.cmd.bits.inst.rs2) === 1537.U && funct3 === 1.U && opcode === 19.U){
       printf("CTZ\n")
       out := ctz(in1)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 5.U && funct3 === 6.U && opcode === 51.U){
       //turn this into signed
       printf("MAX\n")
       out := Mux(in1.asSInt >= in2.asSInt, in1, in2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 5.U && funct3 === 7.U && opcode === 51.U){
       printf("MAXU\n")
       out := Mux(in1 >= in2, in1, in2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 5.U && funct3 === 4.U && opcode === 51.U){
       //turn this into signed
       printf("MIN\n")
       out := Mux(in1.asSInt <= in2.asSInt, in1, in2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 5.U && funct3 === 5.U && opcode === 51.U){
       printf("MINU\n")
       out := Mux(in1 <= in2, in1, in2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(Cat(funct, io.cmd.bits.inst.rs2) === 647.U && funct3 === 5.U && opcode === 19.U){
       printf("ORCB\n")
       out := orcb(in1)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 32.U && funct3 === 6.U && opcode === 51.U){
       printf("ORN\n")
       out := in1 | (~in2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(Cat(funct, io.cmd.bits.inst.rs2) === 1688.U && funct3 === 5.U && opcode === 19.U){
       //fonksiyon doğru çalışıyor ama rev8 tam olarak o fonksiyon mu, ona bakarsın?
       printf("REV8\n")
       out := rev8(in1)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 48.U && funct3 === 1.U && opcode === 51.U){
       printf("ROL\n")
       //bunlarda shiftleme kısmında hata olabilir
       out := rol(in1, in2, 32.U)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 48.U && funct3 === 5.U && opcode === 51.U){
       printf("ROR\n")
       out := ror(in1, in2, 32.U)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 48.U && funct3 === 5.U && opcode === 19.U){
       printf("RORI\n")
       out := rori(in1, io.cmd.bits.inst.rs2, 32.U)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen((Cat(funct, io.cmd.bits.inst.rs2)) === 1540.U && funct3 === 1.U && opcode === 19.U){ //sext.b
       printf("SEXT.B\n")
       out := Cat(Fill(24, in1(7)), in1(7,0))
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(Cat(funct, io.cmd.bits.inst.rs2) === 1541.U && funct3 === 1.U && opcode === 19.U){ //sext.h
       printf("SEXT.H\n")
       out := Cat(Fill(16, in1(15)), in1(15,0))
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(Cat(funct, io.cmd.bits.inst.rs2) === 128.U && funct3 === 4.U && opcode === 51.U){ //zext.h
       printf("ZEXT.H\n")
       out := Cat(Fill(16, 0.U), in1(15,0))
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 32.U && funct3 === 4.U && opcode === 51.U){ //xnor
       printf("XNOR\n")
       out := ~(in1 ^ in2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 16.U && funct3 === 2.U && opcode === 51.U){ //sh1add
       printf("SH1ADD\n")
       out := in2 + (in1 << 1)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 16.U && funct3 === 4.U && opcode === 51.U){ //sh2add
       printf("SH2ADD\n")
       out := in2 + (in1 << 2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 16.U && funct3 === 6.U && opcode === 51.U){ //sh3add
       printf("SH3ADD\n")
       out := in2 + (in1 << 3)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 20.U && funct3 === 1.U && opcode === 51.U){ //bset
       printf("BSET\n")
       out := in1 | (1.U(32.W) << in2(4,0))
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 20.U && funct3 === 1.U && opcode === 19.U){ //bseti
       printf("BSETI\n")
       out := in1 | (1.U(32.W) << io.cmd.bits.inst.rs2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 36.U && funct3 === 1.U && opcode === 51.U){ //bclr
       printf("BCLR\n")
       out := in1 & ~(1.U(32.W) << in2(4,0))
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 36.U && funct3 === 1.U && opcode === 19.U){ //bclri
       printf("BCLRI\n")
       out := in1 & ~(1.U(32.W) << io.cmd.bits.inst.rs2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 36.U && funct3 === 5.U && opcode === 51.U){ //bext
       printf("BEXT\n")
       out := (in1 >> in2(4,0)) & 1.U(32.W)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 36.U && funct3 === 5.U && opcode === 19.U){ //bexti
       printf("BEXTI\n")
       out := (in1 >> io.cmd.bits.inst.rs2) & 1.U(32.W)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 52.U && funct3 === 1.U && opcode === 51.U){ //binv
       printf("BINV\n")
       out := in1 ^ (1.U(32.W) << in2(4,0))
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
+
     }.elsewhen(funct === 52.U && funct3 === 1.U && opcode === 19.U){ //binvi
       printf("BINVI\n")
       out := in1 ^ (1.U(32.W) << io.cmd.bits.inst.rs2)
-      io.resp.valid := true.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      io.resp.bits.data := out
-    }.otherwise{
-      io.resp.valid := false.B
-      io.resp.bits.rd := io.cmd.bits.inst.rd
-      out := 0.U
-      io.resp.bits.data := out
+
     }
+    io.resp.valid := true.B
+    io.resp.bits.rd := io.cmd.bits.inst.rd
+    io.resp.bits.data := out
 
   }
   //normal version
@@ -436,6 +369,8 @@ class BitmanipV2 extends Module {
     val result = (rs1 >> shamt(4,0)) | (rs1 << (xlen - shamt(4,0)))
     result
   }
+
+  
 
   printf("in1 = [%b], in2 = [%b], out = [%b], funct = [%b], inst.rs2 = [%b], Cat = [%b]\n", 
   in1, in2, out, funct, io.cmd.bits.inst.rs2, (Cat(funct, io.cmd.bits.inst.rs2)))  
